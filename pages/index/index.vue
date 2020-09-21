@@ -2,7 +2,7 @@
 	<view class="container">
 		<div class="Machine">
 			<uni-card title="机器" thumbnail="" :extra="item.name" note="Tips" v-for="(item,index) in MachineItemList" :key="index"
-			 @click="showDialog(item)">
+			 @click="showDialog(item)" style="width: 45%;">
 				今日开机率 {{item.availability}}<br>
 				今日生产米数 {{item.productionMeters}}<br>
 				当前状态 {{item.status}}<br>
@@ -29,42 +29,42 @@
 		data() {
 			return {
 				MachineItemList: [{ //后端传来的数据.此时为模拟数据
-						name: 1,
+						name: '1',
 						availability: '30%',
 						productionMeters: '100M',
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
-						name: 2,
+						name: '2',
 						availability: '20%',
 						productionMeters: '100M',
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
-						name: 3,
+						name: '3',
 						availability: '50%',
 						productionMeters: '100M',
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
-						name: 4,
+						name: '4',
 						availability: '60%',
 						productionMeters: '100M',
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
-						name: 5,
+						name: '5',
 						availability: '80%',
 						productionMeters: '100M',
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
-						name: 6,
+						name: '6',
 						availability: '100%',
 						productionMeters: '100M',
 						status: 'fine',
@@ -95,7 +95,6 @@
 
 	.Machine {
 		justify-content: center;
-		align-items: center;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
