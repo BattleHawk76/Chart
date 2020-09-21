@@ -37,7 +37,6 @@
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
 				this.chartName=name
-				console.log('lqq'+this.chartName)
 				this.getServerData();
 			},
 			getServerData() {
