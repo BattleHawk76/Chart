@@ -1,7 +1,7 @@
 <template>
 	<view class="qiun-columns">
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-			<view class="qiun-title-dot-light">饼图右侧图例</view>
+			<view class="qiun-title-dot-light">机器运行状态</view>
 		</view>
 		<view class="qiun-charts qiun-rows">
 			<canvas canvas-id="canvasPie" id="canvasPie" class="charts-pie" @touchstart="touchPie"></canvas>
@@ -35,19 +35,19 @@
 			getServerData() {
 				let Pie = {
 					"series": [{
-						"name": "一班",
+						"name": "上料",
 						"data": 50
 					}, {
-						"name": "二班",
+						"name": "落布",
 						"data": 30
 					}, {
-						"name": "三班",
+						"name": "修理中",
 						"data": 20
 					}, {
-						"name": "四班",
+						"name": "打印条码",
 						"data": 18
 					}, {
-						"name": "五班",
+						"name": "检修",
 						"data": 8
 					}]
 				};

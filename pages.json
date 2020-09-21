@@ -26,6 +26,12 @@
 				"navigationBarTitleText": "柱状图"
 			}
         }
+        ,{
+            "path" : "pages/line/line",
+            "style" : {
+				"navigationBarTitleText": "折线图"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
@@ -58,6 +64,11 @@
 			"iconPath": "static/image/Dic.png",
 			"selectedIconPath": "static/image/Dic-active.png",
 	        "text": "柱状图"
+	    },{
+	        "pagePath": "pages/line/line",
+			"iconPath": "static/image/Dic.png",
+			"selectedIconPath": "static/image/Dic-active.png",
+	        "text": "折线图"
 	    }]
 	}
 }
