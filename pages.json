@@ -1,0 +1,37 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"navigationBarTitleText": "维库Mes系统需求"
+		}
+	},
+	{
+		"path": "pages/Api/index",
+		"style": {
+			"navigationBarTitleText": "维库Mes系统需求"
+		}
+	}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar": {
+	    "color": "#7A7E83",
+	    "selectedColor": "#3cc51f",
+	    "borderStyle": "black",
+	    "backgroundColor": "#ffffff",
+	    "list": [{
+	        "pagePath": "pages/index/index",
+	        "text": "首页"
+	    },{
+	        "pagePath": "pages/Api/index",
+	        "text": "首页2"
+	    }]
+	}
+}
