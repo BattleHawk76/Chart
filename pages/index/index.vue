@@ -26,18 +26,19 @@
 				
 			</uni-card>
 		</div>
-		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="80%" class="Machine">
+		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine">
 			<view>
-				
+				<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name" :canvasId="details.name+'canvasId'"></mypie>
 			</view>
 		</u-popup>
 	</view>
 </template>
 
 <script>
+	import mypie from '../../components/pie/pie.vue'
 	export default {
 		components: {
-
+			mypie
 		},
 		data() {
 			return {
@@ -86,13 +87,13 @@
 				],
 				DialogFlag: false,
 				details: {},
-
 			}
 		},
 		methods: {
 			showDialog(item) {
 				this.DialogFlag = true
 				this.details = item
+				this.$refs.mypie.chartStart(this.details.name);
 			},
 			availabilityType(value) {
 				if (value === 0) return 'info'

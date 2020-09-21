@@ -29,18 +29,39 @@
 		props: {
 			title: '',
 			canvasId: '',
-			datas: null,
-		},
-		mounted(){
-			this._self = this;
-			this.cWidth = uni.upx2px(750);
-			this.cHeight = uni.upx2px(500);
-			this.getServerData();
+			chartName: null,
 		},
 		methods: {
+			chartStart(name){
+				this._self = this;
+				this.cWidth = uni.upx2px(750);
+				this.cHeight = uni.upx2px(500);
+				this.chartName=name
+				console.log('lqq'+this.chartName)
+				this.getServerData();
+			},
 			getServerData() {
-				if(this.datas == null){
+				if (this.chartName === null) {
 					var Pie = {
+						"series": [{
+							"name": "总上料",
+							"data": 500
+						}, {
+							"name": "总落布",
+							"data": 40
+						}, {
+							"name": "总修理中",
+							"data": 20
+						}, {
+							"name": "总打印条码",
+							"data": 38
+						}, {
+							"name": "总检修",
+							"data": 28
+						}]
+					};
+				} else {
+					var Pie = { //需要后端做一个端口,做一个根据机器码来获取单个机器数据
 						"series": [{
 							"name": "上料",
 							"data": 50
@@ -57,12 +78,10 @@
 							"name": "检修",
 							"data": 8
 						}]
-					};
-				}else{
-					var Pie = this.datas
+					}
 				}
-				
-				this._self.showPie(this.canvasId, Pie,this._self);
+
+				this._self.showPie(this.canvasId, Pie, this._self);
 			},
 			showPie(canvasId, chartData, _self) {
 				this.canvaPie = new uCharts({
