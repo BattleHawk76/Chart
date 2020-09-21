@@ -1,8 +1,5 @@
 <template>
 	<view class="qiun-columns">
-		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-			<view class="qiun-title-dot-light">基本折线图</view>
-		</view>
 		<view class="qiun-charts">
 			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
 		</view>
@@ -30,17 +27,17 @@
 		methods: {
 			getServerData() {
 				let LineA = {
-					categories: ['2012', '2013', '2014', '2015', '2016', '2017'],
+					categories: ['9月17日', '9月18日', '9月19日', '9月21日', '9月20日', '9月21日'],
 					series: [{
-						name: '成交量A',
+						name: '机器1',
 						data: [35, 20, 25, 37, 4, 20],
 						color: '#000000'
 					}, {
-						name: '成交量B',
+						name: '机器2',
 						data: [70, 40, 65, 100, 44, 68]
 					}, {
-						name: '成交量C',
-						data: [100, 80, 95, 150, 112, 132]
+						name: '机器3',
+						data: [100, 80, 95, 31, 21, 31]
 					}]
 				};
 				_self.showLineA("canvasLineA", LineA);
@@ -72,10 +69,10 @@
 						gridColor: '#CCCCCC',
 						dashLength: 8,
 						splitNumber: 5,
-						min: 10,
-						max: 180,
+						min: 0,
+						max: 100,
 						format: (val) => {
-							return val.toFixed(0) + '元'
+							return val.toFixed(0) + '%'
 						}
 					},
 					width: _self.cWidth * _self.pixelRatio,
