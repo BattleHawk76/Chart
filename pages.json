@@ -14,7 +14,19 @@
 			"navigationBarTitleText": "维库Mes系统需求"
 		}
 	}
-	],
+	    ,{
+            "path" : "pages/pie/pie",
+            "style" : {
+				"navigationBarTitleText": "饼图"
+			}
+        }
+        ,{
+            "path" : "pages/zhu/zhu",
+            "style" : {
+				"navigationBarTitleText": "柱状图"
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
@@ -28,10 +40,24 @@
 	    "backgroundColor": "#ffffff",
 	    "list": [{
 	        "pagePath": "pages/index/index",
+			"iconPath": "static/image/Block.png",
+			"selectedIconPath": "static/image/Block-active.png",
 	        "text": "首页"
 	    },{
 	        "pagePath": "pages/Api/index",
+			"iconPath": "static/image/Dic.png",
+			"selectedIconPath": "static/image/Dic-active.png",
 	        "text": "首页2"
+	    },{
+	        "pagePath": "pages/pie/pie",
+			"iconPath": "static/image/Dic.png",
+			"selectedIconPath": "static/image/Dic-active.png",
+	        "text": "饼图"
+	    },{
+	        "pagePath": "pages/zhu/zhu",
+			"iconPath": "static/image/Dic.png",
+			"selectedIconPath": "static/image/Dic-active.png",
+	        "text": "柱状图"
 	    }]
 	}
 }
