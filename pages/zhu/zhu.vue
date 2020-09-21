@@ -3,6 +3,7 @@
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 			<view class="qiun-title-dot-light">基本柱状图</view>
 		</view>
+		基本柱状图
 		<view class="qiun-charts">
 			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 		</view>
@@ -15,9 +16,6 @@
 	var canvaColumn = null;
 
 	export default {
-		props: {
-			chartName: null
-		},
 		data() {
 			return {
 				cWidth: '',
@@ -26,35 +24,32 @@
 				serverData: '',
 			}
 		},
+		onLoad() {
+			_self = this;
+			this.cWidth = uni.upx2px(750);
+			this.cHeight = uni.upx2px(500);
+			this.pixelRatio = 1
+			this.getServerData();
+		},
 		methods: {
-			chartStart(name) {
-				_self = this;
-				this.cWidth = uni.upx2px(750);
-				this.cHeight = uni.upx2px(500);
-				this.pixelRatio = 1
-				this.chartName = name
-				this.getServerData();
-			},
 			getServerData() {
-				if (this.chartName === null) {
-					let Column = {
-						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
-						"series": [{
-							"name": "生产米数",
-							"data": [115, 145, 337, 413, 324, 602]
-						}]
-					}
-					_self.showColumn("canvasColumn", Column);
-				} else {
-					let Column = {
-						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
-						"series": [{
-							"name": "生产米数",
-							"data": [15, 45, 37, 43, 34]
-						}]
-					}
-					_self.showColumn("canvasColumn", Column);
+				let Column = {
+					"categories": ["2012", "2013", "2014", "2015", "2016", "2017"],
+					"series": [{
+						"name": "成交量1",
+						"data": [15, {
+							"value": 20,
+							"color": "#f04864"
+						}, 45, 37, 43, 34]
+					}, {
+						"name": "成交量2",
+						"data": [30, {
+							"value": 40,
+							"color": "#facc14"
+						}, 25, 14, 34, 18]
+					}]
 				}
+				_self.showColumn("canvasColumn", Column);
 			},
 			showColumn(canvasId, chartData) {
 				canvaColumn = new uCharts({

@@ -1,8 +1,7 @@
 <template>
 	<view class="qiun-columns">
-		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-			<view class="qiun-title-dot-light">生产米数</view>
-		</view>
+		
+		生产米数
 		<view class="qiun-charts">
 			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 		</view>
@@ -50,7 +49,7 @@
 						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
 						"series": [{
 							"name": "生产米数",
-							"data": [15, 55, 37, 43, 34]
+							"data": [15, 55, 37, 43, 34,76]
 						}]
 					}
 					_self.showColumn("canvasColumn", Column);

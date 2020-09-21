@@ -1,5 +1,6 @@
 <template>
 	<view class="qiun-columns">
+		开机率
 		<view class="qiun-charts">
 			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
 		</view>
