@@ -29,7 +29,7 @@
         ,{
             "path" : "pages/line/line",
             "style" : {
-				"navigationBarTitleText": "折线图"
+				"navigationBarTitleText": "全部机器开机率"
 			}
         }
     ],
@@ -68,7 +68,7 @@
 	        "pagePath": "pages/line/line",
 			"iconPath": "static/image/Dic.png",
 			"selectedIconPath": "static/image/Dic-active.png",
-	        "text": "折线图"
+	        "text": "机器开机率"
 	    }]
 	}
 }
