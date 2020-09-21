@@ -8,15 +8,19 @@
 					<u-tag :text="item.availability+'%'" mode="light" :type="availabilityType(item.availability)" size="mini" />
 				</div>
 				<div>
-					今日生产米数 {{item.productionMeters}}
+					今日生产米数:
+					<u-tag :text="item.productionMeters+'M'" mode="light" :type="productionMetersType(item.productionMeters)" size="mini" />
 				</div>
 				<div>
-					当前状态 {{item.status}}
+					当前状态:
+					<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
+					
 				</div>
 				<div>
-					状态更新时间 {{item.statusUpdateTime}}
+					状态更新时间:
+					<u-tag :text="item.statusUpdateTime" mode="light"  size="mini" />
 				</div>
-				
+
 			</uni-card>
 		</div>
 		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="80%" class="Machine">
@@ -40,49 +44,49 @@
 				MachineItemList: [{ //后端传来的数据.此时为模拟数据
 						name: '1',
 						availability: 30,
-						productionMeters: 100,
+						productionMeters: 300,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
 						name: '2',
 						availability: 30,
-						productionMeters: 100,
+						productionMeters: 500,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
 						name: '3',
 						availability: 60,
-						productionMeters: 100,
+						productionMeters: 600,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
 						name: '4',
 						availability: 40,
-						productionMeters: 100,
+						productionMeters: 700,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
 						name: '5',
 						availability: 80,
-						productionMeters: 100,
+						productionMeters: 800,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 					{
 						name: '6',
-						availability: 100,
-						productionMeters: 100,
+						availability: 0,
+						productionMeters: 900,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
 					},
 				],
 				DialogFlag: false,
 				details: {},
-				
+
 			}
 		},
 		methods: {
@@ -90,11 +94,21 @@
 				this.DialogFlag = true
 				this.details = item
 			},
-			availabilityType(value){
-				if(value===0)return 'info'
-				if(value<=30)return 'error'
-				if(value<=60)return 'warning'
-				if(value>=80)return 'primary'
+			availabilityType(value) {
+				if (value === 0) return 'info'
+				if (value <= 30) return 'error'
+				if (value <= 60) return 'warning'
+				if (value > 60) return 'primary'
+			},
+			productionMetersType(value) {
+				if (value === 0) return 'info'
+				if (value <= 300) return 'error'
+				if (value <= 600) return 'warning'
+				if (value > 600) return 'primary'
+			},
+			statusType(value){
+				if(value !='fine') return 'error'
+				else return 'success'
 			}
 		},
 
