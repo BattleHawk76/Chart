@@ -1,34 +1,38 @@
 <template>
 	<view class="container">
 		<div class="Machine">
-			<uni-card title="机器" thumbnail="" :extra="item.name" note="详情点击" v-for="(item,index) in MachineItemList" :key="index"
-			 @click="showDialog(item)" style="width: 45%;">
-			 <div style="font-size: 9px;">
-				 <div>
-				 	今日开机率:
-				 	<u-tag :text="item.availability+'%'" mode="light" :type="availabilityType(item.availability)" size="mini" />
-				 </div>
-				 <div>
-				 	今日生产米数:
-				 	<u-tag :text="item.productionMeters+'M'" mode="light" :type="productionMetersType(item.productionMeters)" size="mini" />
-				 </div>
-				 <div>
-				 	当前状态:
-				 	<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
-				 	
-				 </div>
-				 <div>
-				 	状态更新时间:
-				 	<u-tag :text="item.statusUpdateTime" mode="light"  size="mini" />
-				 </div>
-				 
-			 </div>
-				
+			<uni-card title="机器" thumbnail="" :extra="item.name" v-for="(item,index) in MachineItemList" :key="index" @click="showDialog(item)"
+			 style="width: 45%;">
+				<div style="font-size: 9px;">
+					<div>
+						今日开机率:
+						<u-tag :text="item.availability+'%'" mode="light" :type="availabilityType(item.availability)" size="mini" />
+					</div>
+					<div>
+						今日生产米数:
+						<u-tag :text="item.productionMeters+'M'" mode="light" :type="productionMetersType(item.productionMeters)" size="mini" />
+					</div>
+					<div>
+						当前状态:
+						<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
+
+					</div>
+					<div>
+						状态更新时间:
+						<u-tag :text="item.statusUpdateTime" mode="light" size="mini" />
+					</div>
+
+				</div>
+
 			</uni-card>
 		</div>
-		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine">
-			<view>
-				<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name" :canvasId="details.name+'canvasId'"></mypie>
+		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true' @close="close">
+			<view ref='Chart' v-if="hackReset">
+				<scroll-view scroll-y="true" style="height: 95vh;">
+					<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></mypie>
+					<myline ref="myline" :chartName="details.name" v-show="DialogFlag"></myline>
+					<myzhu ref="myzhu" :chartName="details.name" v-show="DialogFlag"></myzhu>
+				</scroll-view>
 			</view>
 		</u-popup>
 	</view>
@@ -36,9 +40,13 @@
 
 <script>
 	import mypie from '../../components/pie/pie.vue'
+	import myline from '../../components/line/line.vue'
+	import myzhu from '../../components/zhu/zhu.vue'
 	export default {
 		components: {
-			mypie
+			mypie,
+			myline,
+			myzhu
 		},
 		data() {
 			return {
@@ -87,13 +95,17 @@
 				],
 				DialogFlag: false,
 				details: {},
+				hackReset:true
 			}
 		},
 		methods: {
 			showDialog(item) {
-				this.DialogFlag = true
 				this.details = item
+				this.DialogFlag = true
 				this.$refs.mypie.chartStart(this.details.name);
+				this.$refs.myline.chartStart(this.details.name);
+				this.$refs.myzhu.chartStart(this.details.name);
+
 			},
 			availabilityType(value) {
 				if (value === 0) return 'info'
@@ -107,9 +119,16 @@
 				if (value <= 600) return 'warning'
 				if (value > 600) return 'primary'
 			},
-			statusType(value){
-				if(value !='fine') return 'error'
+			statusType(value) {
+				if (value != 'fine') return 'error'
 				else return 'success'
+
+			},
+			close(value) {
+				this.hackReset = false; //销毁组件
+				this.$nextTick(() => {
+					this.hackReset = true; //重建组件
+				});
 			}
 		},
 

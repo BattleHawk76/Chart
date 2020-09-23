@@ -1,8 +1,6 @@
 <template>
 	<view class="qiun-columns">
-		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-			<view class="qiun-title-dot-light">{{title}}</view>
-		</view>
+		{{title}}
 		<view class="qiun-charts qiun-rows">
 			<canvas :canvas-id="canvasId" :id="canvasId" class="charts-pie" @touchstart="touchPie"></canvas>
 		</view>
@@ -32,13 +30,13 @@
 			chartName: null,
 		},
 		methods: {
-			chartStart(name){
+			chartStart(name) {
 				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
-				this.chartName=name
-				console.log('lqq'+this.chartName)
+				this.chartName = name
 				this.getServerData();
+				
 			},
 			getServerData() {
 				if (this.chartName === null) {
@@ -121,7 +119,8 @@
 					}
 				});
 			},
-		}
+		},
+
 	}
 </script>
 

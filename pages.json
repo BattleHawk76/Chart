@@ -9,12 +9,6 @@
 		}
 	},
 	{
-		"path": "pages/Api/index",
-		"style": {
-			"navigationBarTitleText": "维库Mes系统需求"
-		}
-	}
-	    ,{
             "path" : "pages/pie/pie",
             "style" : {
 				"navigationBarTitleText": "饼图"
@@ -49,11 +43,6 @@
 			"iconPath": "static/image/Block.png",
 			"selectedIconPath": "static/image/Block-active.png",
 	        "text": "首页"
-	    },{
-	        "pagePath": "pages/Api/index",
-			"iconPath": "static/image/Dic.png",
-			"selectedIconPath": "static/image/Dic-active.png",
-	        "text": "首页2"
 	    },{
 	        "pagePath": "pages/pie/pie",
 			"iconPath": "static/image/Dic.png",
