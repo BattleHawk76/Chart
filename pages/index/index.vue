@@ -1,29 +1,29 @@
 <template>
 	<view class="container">
 		<div class="Machine">
-			<uni-card title="机器" thumbnail="" :extra="item.name" note="详情点击" v-for="(item,index) in MachineItemList" :key="index"
-			 @click="showDialog(item)" style="width: 45%;">
-			 <div style="font-size: 9px;">
-				 <div>
-				 	今日开机率:
-				 	<u-tag :text="item.availability+'%'" mode="light" :type="availabilityType(item.availability)" size="mini" />
-				 </div>
-				 <div>
-				 	今日生产米数:
-				 	<u-tag :text="item.productionMeters+'M'" mode="light" :type="productionMetersType(item.productionMeters)" size="mini" />
-				 </div>
-				 <div>
-				 	当前状态:
-				 	<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
-				 	
-				 </div>
-				 <div>
-				 	状态更新时间:
-				 	<u-tag :text="item.statusUpdateTime" mode="light"  size="mini" />
-				 </div>
-				 
-			 </div>
-				
+			<uni-card title="机器" thumbnail="" :extra="item.name" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item)"
+			 style="width: 45%;">
+				<div style="font-size: 9px;">
+					<div>
+						今日开机率:
+						<u-tag :text="item.availability+'%'" mode="light" :type="availabilityType(item.availability)" size="mini" />
+					</div>
+					<div>
+						今日生产米数:
+						<u-tag :text="item.productionMeters+'M'" mode="light" :type="productionMetersType(item.productionMeters)" size="mini" />
+					</div>
+					<div>
+						当前状态:
+						<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
+
+					</div>
+					<div>
+						状态更新时间:
+						<u-tag :text="item.statusUpdateTime" mode="light" size="mini" />
+					</div>
+
+				</div>
+
 			</uni-card>
 		</div>
 		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true'>
@@ -42,7 +42,9 @@
 	import myzhu from '../../components/zhu/zhu.vue'
 	export default {
 		components: {
-			mypie,myline,myzhu
+			mypie,
+			myline,
+			myzhu
 		},
 		data() {
 			return {
@@ -113,9 +115,16 @@
 				if (value <= 600) return 'warning'
 				if (value > 600) return 'primary'
 			},
-			statusType(value){
-				if(value !='fine') return 'error'
+			statusType(value) {
+				if (value != 'fine') return 'error'
 				else return 'success'
+			},
+			showChart(item) {
+				console.log(item)
+				uni.navigateTo({
+					url: `/pages/chartMessage/chartMessage?item=${JSON.stringify(item)}`,
+				});
+
 			}
 		},
 

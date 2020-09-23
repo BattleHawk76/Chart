@@ -32,6 +32,10 @@
 				"navigationBarTitleText": "全部机器开机率"
 			}
         }
+        ,{
+            "path" : "pages/chartMessage/chartMessage",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
