@@ -12,9 +12,6 @@
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
-	var _self;
-	var canvaPie = null;
-
 	export default {
 		data() {
 			return {
@@ -23,10 +20,12 @@
 				pixelRatio: 1,
 				serverData: '',
 				piearr: [],
+				_self: null,
+				canvaPie: null,
 			}
 		},
 		onLoad() {
-			_self = this;
+			this._self = this;
 			this.cWidth = uni.upx2px(750);
 			this.cHeight = uni.upx2px(500);
 			this.getServerData();
@@ -51,10 +50,10 @@
 						"data": 8
 					}]
 				};
-				_self.showPie("canvasPie", Pie);
+				this._self.showPie("canvasPie", Pie, this._self);
 			},
-			showPie(canvasId, chartData) {
-				canvaPie = new uCharts({
+			showPie(canvasId, chartData, _self) {
+				this.canvaPie = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'pie',
@@ -82,10 +81,10 @@
 						}
 					},
 				});
-				this.piearr = canvaPie.opts.series;
+				this.piearr = this.canvaPie.opts.series;
 			},
 			touchPie(e) {
-				canvaPie.showToolTip(e, {
+				this.canvaPie.showToolTip(e, {
 					format: function(item) {
 						return item.name + ':' + item.data
 					}

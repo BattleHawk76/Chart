@@ -12,7 +12,12 @@
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
 	export default {
-		name: "lineChart",
+		name: 'lineChart',
+		props: {
+			title: '',
+			canvasId: '',
+			chartName: null
+		},
 		data() {
 			return {
 				cWidth: '',
@@ -22,21 +27,17 @@
 				canvaLineA: null,
 			}
 		},
-		props: {
-			canvasId: '',
-			title: '',
-			datas: null,
-		},
-		mounted() {
-			this._self = this;
-			this.cWidth = uni.upx2px(750);
-			this.cHeight = uni.upx2px(500);
-			this.getServerData();
-		},
 		methods: {
+			chartStart(name) {
+				this._self = this;
+				this.cWidth = uni.upx2px(750);
+				this.cHeight = uni.upx2px(500);
+				this.chartName= name
+				this.getServerData();
+			},
 			getServerData() {
-				if(this.datas == null){
-					var LineA = {
+				if (this.chartName === null) {
+					let LineA = {
 						categories: ['9月17日', '9月18日', '9月19日', '9月21日', '9月20日', '9月21日'],
 						series: [{
 							name: '机器1',
@@ -50,12 +51,21 @@
 							data: [100, 80, 95, 31, 21, 31]
 						}]
 					};
-				}else{
-					var LineA = this.datas
+					this._self.showLineA(this.canvasId, LineA, this._self);
+				} else {
+					let LineA = {
+						categories: ['9月17日', '9月18日', '9月19日', '9月21日', '9月20日', '9月21日'],
+						series: [{
+							name: '机器1',
+							data: [35, 20, 25, 37, 4, 20],
+							color: '#000000'
+						}]
+					};
+					this._self.showLineA(this.canvasId, LineA, this._self);
 				}
-				this._self.showLineA(this.canvasId, LineA, this._self);
+
 			},
-			showLineA(canvasId, chartData,_self) {
+			showLineA(canvasId, chartData, _self) {
 				this.canvaLineA = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
@@ -105,7 +115,7 @@
 					}
 				});
 			}
-		}
+		},
 	}
 </script>
 

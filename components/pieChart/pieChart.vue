@@ -12,7 +12,7 @@
 	import uCharts from '../u-charts/u-charts.js';
 
 	export default {
-		name: 'pie',
+		name: 'pieChart',
 		data() {
 			return {
 				cWidth: '',

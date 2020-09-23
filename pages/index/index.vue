@@ -15,23 +15,20 @@
 					<div>
 						当前状态:
 						<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
-
 					</div>
 					<div>
 						状态更新时间:
 						<u-tag :text="item.statusUpdateTime" mode="light" size="mini" />
 					</div>
-
 				</div>
-
 			</uni-card>
 		</div>
-		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true' @close="close">
+		<u-popup toJson="false" v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true' @close="close">
 			<view ref='Chart' v-if="hackReset">
 				<scroll-view scroll-y="true" style="height: 95vh;">
-					<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></mypie>
-					<myline ref="myline" :chartName="details.name" v-show="DialogFlag"></myline>
-					<myzhu ref="myzhu" :chartName="details.name" v-show="DialogFlag"></myzhu>
+					<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name+'运行状态'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></mypie>
+					<myline ref="myline" :chartName="details.name" :title="'机器'+details.name+'开机率'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></myline>
+					<myzhu ref="myzhu" :chartName="details.name" :title="'机器'+details.name+'生产米数'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></myzhu>
 				</scroll-view>
 			</view>
 		</u-popup>
@@ -39,9 +36,9 @@
 </template>
 
 <script>
-	import mypie from '../../components/pie/pie.vue'
-	import myline from '../../components/line/line.vue'
-	import myzhu from '../../components/zhu/zhu.vue'
+	import mypie from '../../components/pieChart/pieChart.vue'
+	import myline from '../../components/lineChart/lineChart.vue'
+	import myzhu from '../../components/columnChart/columnChart.vue'
 	export default {
 		components: {
 			mypie,
@@ -56,22 +53,19 @@
 						productionMeters: 300,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
-					{
+					},{
 						name: '2',
 						availability: 30,
 						productionMeters: 500,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
-					{
+					},{
 						name: '3',
 						availability: 60,
 						productionMeters: 600,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
-					{
+					},{
 						name: '4',
 						availability: 40,
 						productionMeters: 700,

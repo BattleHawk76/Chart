@@ -3,7 +3,6 @@
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 			<view class="qiun-title-dot-light">基本柱状图</view>
 		</view>
-		基本柱状图
 		<view class="qiun-charts">
 			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 		</view>
@@ -12,9 +11,6 @@
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
-	var _self;
-	var canvaColumn = null;
-
 	export default {
 		data() {
 			return {
@@ -22,13 +18,14 @@
 				cHeight: '',
 				pixelRatio: 1,
 				serverData: '',
+				_self: null,
+				canvaColumn: null
 			}
 		},
 		onLoad() {
-			_self = this;
+			this._self = this;
 			this.cWidth = uni.upx2px(750);
 			this.cHeight = uni.upx2px(500);
-			this.pixelRatio = 1
 			this.getServerData();
 		},
 		methods: {
@@ -49,10 +46,10 @@
 						}, 25, 14, 34, 18]
 					}]
 				}
-				_self.showColumn("canvasColumn", Column);
+				this._self.showColumn("canvasColumn", Column, this._self);
 			},
-			showColumn(canvasId, chartData) {
-				canvaColumn = new uCharts({
+			showColumn(canvasId, chartData, _self) {
+				this.canvaColumn = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'column',
@@ -77,14 +74,14 @@
 					extra: {
 						column: {
 							type: 'group',
-							width: _self.cWidth * _self.pixelRatio * 0.45
+							width: _self.cWidth * _self.pixelRatio * 0.45 / chartData.categories.length
 						}
 					}
 				});
 
 			},
 			touchColumn(e) {
-				canvaColumn.showToolTip(e, {
+				this.canvaColumn.showToolTip(e, {
 					format: function(item, category) {
 						if (typeof item.data === 'object') {
 							return category + ' ' + item.name + ':' + item.data.value
