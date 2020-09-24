@@ -1,12 +1,12 @@
 <template>
 	<view class="qiun-columns">
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-			<view class="qiun-title-dot-light">机器运行状态</view>
+			<view class="qiun-title-dot-light">基本柱状图</view>
 		</view>
-		<view class="qiun-charts qiun-rows">
-			<canvas canvas-id="canvasPie" id="canvasPie" class="charts-pie" @touchstart="touchPie"></canvas>
+		基本柱状图
+		<view class="qiun-charts">
+			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 		</view>
-
 	</view>
 </template>
 
@@ -19,74 +19,77 @@
 				cHeight: '',
 				pixelRatio: 1,
 				serverData: '',
-				piearr: [],
 				_self: null,
-				canvaPie: null,
+				canvaColumn: null
 			}
 		},
 		onLoad() {
 			this._self = this;
 			this.cWidth = uni.upx2px(750);
 			this.cHeight = uni.upx2px(500);
+			this.pixelRatio = 1
 			this.getServerData();
 		},
 		methods: {
 			getServerData() {
-				let Pie = {
+				let Column = {
+					"categories": ["2012", "2013", "2014", "2015", "2016", "2017"],
 					"series": [{
-						"name": "上料",
-						"data": 50
+						"name": "成交量1",
+						"data": [15, {
+							"value": 20,
+							"color": "#f04864"
+						}, 45, 37, 43, 34]
 					}, {
-						"name": "落布",
-						"data": 30
-					}, {
-						"name": "修理中",
-						"data": 20
-					}, {
-						"name": "打印条码",
-						"data": 18
-					}, {
-						"name": "检修",
-						"data": 8
+						"name": "成交量2",
+						"data": [30, {
+							"value": 40,
+							"color": "#facc14"
+						}, 25, 14, 34, 18]
 					}]
-				};
-				this._self.showPie("canvasPie", Pie, this._self);
+				}
+				this._self.showColumn("canvasColumn", Column, this._self);
 			},
-			showPie(canvasId, chartData, _self) {
-				this.canvaPie = new uCharts({
+			showColumn(canvasId, chartData, _self) {
+				canvaColumn = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'pie',
-					fontSize: 11,
+					type: 'column',
 					legend: {
-						show: true,
-						position: 'right',
-						float: 'center',
-						itemGap: 10,
-						padding: 5,
-						lineHeight: 26,
-						margin: 5,
-						borderWidth: 1
+						show: true
 					},
+					fontSize: 11,
 					background: '#FFFFFF',
 					pixelRatio: _self.pixelRatio,
-					series: chartData.series,
 					animation: true,
+					categories: chartData.categories,
+					series: chartData.series,
+					xAxis: {
+						disableGrid: true,
+					},
+					yAxis: {
+						//disabled:true
+					},
+					dataLabel: true,
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
-					dataLabel: true,
 					extra: {
-						pie: {
-							labelWidth: 15
+						column: {
+							type: 'group',
+							width: _self.cWidth * _self.pixelRatio * 0.45
 						}
-					},
+					}
 				});
-				this.piearr = this.canvaPie.opts.series;
+
 			},
-			touchPie(e) {
-				this.canvaPie.showToolTip(e, {
-					format: function(item) {
-						return item.name + ':' + item.data
+			touchColumn(e) {
+				this.canvaColumn.showToolTip(e, {
+					format: function(item, category) {
+						if (typeof item.data === 'object') {
+							return category + ' ' + item.name + ':' + item.data.value
+						} else {
+							return category + ' ' + item.name + ':' + item.data
+						}
 					}
 				});
 			},
@@ -148,40 +151,9 @@
 		background-color: #FFFFFF;
 	}
 
-	.charts-pie {
+	.charts {
 		width: 750upx;
 		height: 500upx;
 		background-color: #FFFFFF;
-	}
-
-	.charts-right {
-		display: flex;
-		align-items: center;
-		width: 250upx;
-		height: 500upx;
-		background-color: #FFFFFF;
-	}
-
-	.legend-itme {
-		width: 200upx;
-		margin-left: 30upx;
-		height: 50upx;
-		align-items: center;
-	}
-
-	.legend-itme-point {
-		width: 20upx;
-		height: 20upx;
-		margin: 15upx;
-		border: 1px solid #FFFFFF;
-		border-radius: 20upx;
-		background-color: #000000;
-	}
-
-	.legend-itme-text {
-		height: 50upx;
-		line-height: 50upx;
-		color: #666666;
-		font-size: 26upx;
 	}
 </style>

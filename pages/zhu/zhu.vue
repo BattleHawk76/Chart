@@ -11,53 +11,45 @@
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
-	var _self;
-	var canvaColumn = null;
-
 	export default {
-		props: {
-			chartName: null
-		},
 		data() {
 			return {
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
 				serverData: '',
+				_self: null,
+				canvaColumn: null
 			}
 		},
+		onLoad() {
+			this._self = this;
+			this.cWidth = uni.upx2px(750);
+			this.cHeight = uni.upx2px(500);
+			this.getServerData();
+		},
 		methods: {
-			chartStart(name) {
-				_self = this;
-				this.cWidth = uni.upx2px(750);
-				this.cHeight = uni.upx2px(500);
-				this.pixelRatio = 1
-				this.chartName = name
-				this.getServerData();
-			},
 			getServerData() {
-				if (this.chartName === null) {
-					let Column = {
-						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
-						"series": [{
-							"name": "生产米数",
-							"data": [115, 145, 337, 413, 324, 602]
-						}]
-					}
-					_self.showColumn("canvasColumn", Column);
-				} else {
-					let Column = {
-						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
-						"series": [{
-							"name": "生产米数",
-							"data": [15, 45, 37, 43, 34]
-						}]
-					}
-					_self.showColumn("canvasColumn", Column);
+				let Column = {
+					"categories": ["2012", "2013", "2014", "2015", "2016", "2017"],
+					"series": [{
+						"name": "成交量1",
+						"data": [15, {
+							"value": 20,
+							"color": "#f04864"
+						}, 45, 37, 43, 34]
+					}, {
+						"name": "成交量2",
+						"data": [30, {
+							"value": 40,
+							"color": "#facc14"
+						}, 25, 14, 34, 18]
+					}]
 				}
+				this._self.showColumn("canvasColumn", Column, this._self);
 			},
-			showColumn(canvasId, chartData) {
-				canvaColumn = new uCharts({
+			showColumn(canvasId, chartData, _self) {
+				this.canvaColumn = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'column',
@@ -82,14 +74,14 @@
 					extra: {
 						column: {
 							type: 'group',
-							width: _self.cWidth * _self.pixelRatio * 0.45
+							width: _self.cWidth * _self.pixelRatio * 0.45 / chartData.categories.length
 						}
 					}
 				});
 
 			},
 			touchColumn(e) {
-				canvaColumn.showToolTip(e, {
+				this.canvaColumn.showToolTip(e, {
 					format: function(item, category) {
 						if (typeof item.data === 'object') {
 							return category + ' ' + item.name + ':' + item.data.value

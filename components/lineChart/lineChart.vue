@@ -1,17 +1,21 @@
 <template>
 	<view class="qiun-columns">
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+			<view class="qiun-title-dot-light">{{title}}</view>
+		</view>
 		<view class="qiun-charts">
-			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
+			<canvas :canvas-id="canvasId" :id="canvasId" class="charts" @touchstart="touchLineA"></canvas>
 		</view>
 	</view>
 </template>
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
-	var _self;
-	var canvaLineA = null;
 	export default {
+		name: 'lineChart',
 		props: {
+			title: '',
+			canvasId: '',
 			chartName: null
 		},
 		data() {
@@ -19,14 +23,16 @@
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
+				_self: null,
+				canvaLineA: null,
 			}
 		},
 		methods: {
 			chartStart(name) {
-				_self = this;
+				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
-				this.chartName=name
+				this.chartName= name
 				this.getServerData();
 			},
 			getServerData() {
@@ -45,7 +51,7 @@
 							data: [100, 80, 95, 31, 21, 31]
 						}]
 					};
-					_self.showLineA("canvasLineA", LineA);
+					this._self.showLineA(this.canvasId, LineA, this._self);
 				} else {
 					let LineA = {
 						categories: ['9月17日', '9月18日', '9月19日', '9月21日', '9月20日', '9月21日'],
@@ -55,12 +61,12 @@
 							color: '#000000'
 						}]
 					};
-					_self.showLineA("canvasLineA", LineA);
+					this._self.showLineA(this.canvasId, LineA, this._self);
 				}
 
 			},
-			showLineA(canvasId, chartData) {
-				canvaLineA = new uCharts({
+			showLineA(canvasId, chartData, _self) {
+				this.canvaLineA = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'line',
@@ -103,7 +109,7 @@
 
 			},
 			touchLineA(e) {
-				canvaLineA.showToolTip(e, {
+				this.canvaLineA.showToolTip(e, {
 					format: function(item, category) {
 						return category + ' ' + item.name + ':' + item.data
 					}

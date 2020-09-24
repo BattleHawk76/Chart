@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<div class="Machine">
-			<uni-card title="机器" thumbnail="" :extra="item.name" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item)"
+			<uni-card title="机器" :extra="item.name" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item)"
 			 style="width: 45%;">
 				<div style="font-size: 9px;">
 					<div>
@@ -15,7 +15,6 @@
 					<div>
 						当前状态:
 						<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
-
 					</div>
 					<div>
 						状态更新时间:
@@ -26,20 +25,22 @@
 
 			</uni-card>
 		</div>
-		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true'>
-			<view>
-				<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name" :canvasId="details.name+'canvasId'"></mypie>
-				<myline ref="myline" :chartName="details.name"></myline>
-				<myzhu ref="myzhu" :chartName="details.name"></myzhu>
+		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true' @close="close">
+			<view ref='Chart' v-if="hackReset">
+				<scroll-view scroll-y="true" style="height: 95vh;">
+					<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name+'运行状态'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></mypie>
+					<myline ref="myline" :chartName="details.name" :title="'机器'+details.name+'开机率'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></myline>
+					<myzhu ref="myzhu" :chartName="details.name" :title="'机器'+details.name+'生产米数'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></myzhu>
+				</scroll-view>
 			</view>
 		</u-popup>
 	</view>
 </template>
 
 <script>
-	import mypie from '../../components/pie/pie.vue'
-	import myline from '../../components/line/line.vue'
-	import myzhu from '../../components/zhu/zhu.vue'
+	import mypie from '../../components/pieChart/pieChart.vue'
+	import myline from '../../components/lineChart/lineChart.vue'
+	import myzhu from '../../components/columnChart/columnChart.vue'
 	export default {
 		components: {
 			mypie,
@@ -54,22 +55,19 @@
 						productionMeters: 300,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
-					{
+					},{
 						name: '2',
 						availability: 30,
 						productionMeters: 500,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
-					{
+					},{
 						name: '3',
 						availability: 60,
 						productionMeters: 600,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
-					{
+					},{
 						name: '4',
 						availability: 40,
 						productionMeters: 700,
@@ -89,19 +87,21 @@
 						productionMeters: 900,
 						status: 'fine',
 						statusUpdateTime: '11:15:32'
-					},
+					}
 				],
 				DialogFlag: false,
 				details: {},
+				hackReset:true
 			}
 		},
 		methods: {
 			showDialog(item) {
-				this.DialogFlag = true
 				this.details = item
+				this.DialogFlag = true
 				this.$refs.mypie.chartStart(this.details.name);
 				this.$refs.myline.chartStart(this.details.name);
 				this.$refs.myzhu.chartStart(this.details.name);
+
 			},
 			availabilityType(value) {
 				if (value === 0) return 'info'
@@ -119,12 +119,17 @@
 				if (value != 'fine') return 'error'
 				else return 'success'
 			},
+			close(value) {
+				this.hackReset = false; //销毁组件
+				this.$nextTick(() => {
+					this.hackReset = true; //重建组件
+				});
+			},
 			showChart(item) {
 				console.log(item)
 				uni.navigateTo({
-					url: `/pages/chartMessage/chartMessage?item=${JSON.stringify(item)}`,
+					url: `/pages/chartMessage/chartMessage?message=${JSON.stringify(item)}`,
 				});
-
 			}
 		},
 

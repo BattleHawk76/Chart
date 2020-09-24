@@ -1,16 +1,15 @@
 <template>
 	<view>
-		<mypie ref="mypie" :pieData="pieData" :chartName="details.name" :title="'机器'+details.name" :canvasId="details.name+'canvasId'"></mypie>
-		<myline ref="myline" :chartName="details.name"></myline>
-		<myzhu ref="myzhu" :chartName="details.name"></myzhu>
+		<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name+'运行状态'" :canvasId="details.name+'pieId1'"></mypie>
+		<myline ref="myline" :chartName="details.name" :title="'机器'+details.name+'开机率'" :canvasId="details.name+'lineId1'"></myline>
+		<myzhu ref="myzhu" :chartName="details.name" :title="'机器'+details.name+'生产米数'" :canvasId="details.name+'barId1'"></myzhu>
 	</view>
 </template>
 
 <script>
-	import mypie from '../../components/pie/pie.vue'
-	import myline from '../../components/line/line.vue'
-	import myzhu from '../../components/zhu/zhu.vue'
-
+	import mypie from '../../components/pieChart/pieChart.vue'
+	import myline from '../../components/lineChart/lineChart.vue'
+	import myzhu from '../../components/columnChart/columnChart.vue'
 	export default {
 		components: {
 			mypie,
@@ -26,7 +25,7 @@
 
 		},
 		onLoad(option) {
-			this.details = JSON.parse(option.item)
+			this.details = JSON.parse(option.message)
 			console.log(this.details)
 		},
 		onReady() {

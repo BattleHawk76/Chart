@@ -1,34 +1,36 @@
 <template>
 	<view class="qiun-columns">
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-			<view class="qiun-title-dot-light">生产米数</view>
+			<view class="qiun-title-dot-light">{{title}}</view>
 		</view>
 		<view class="qiun-charts">
-			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+			<canvas :canvas-id="canvasId" :id="canvasId" class="charts" @touchstart="touchColumn"></canvas>
 		</view>
 	</view>
 </template>
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
-	var _self;
-	var canvaColumn = null;
-
 	export default {
-		props: {
-			chartName: null
-		},
+		name: 'columnChart',
 		data() {
 			return {
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
 				serverData: '',
+				_self: null,
+				canvaColumn: null,
 			}
+		},
+		props: {
+			title: '',
+			canvasId: '',
+			chartName: null
 		},
 		methods: {
 			chartStart(name) {
-				_self = this;
+				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
 				this.pixelRatio = 1
@@ -44,20 +46,20 @@
 							"data": [115, 145, 337, 413, 324, 602]
 						}]
 					}
-					_self.showColumn("canvasColumn", Column);
+					this._self.showColumn(this.canvasId, Column, this._self);
 				} else {
 					let Column = {
 						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
 						"series": [{
 							"name": "生产米数",
-							"data": [15, 55, 37, 43, 34]
+							"data": [15, 55, 37, 43, 34,76]
 						}]
 					}
-					_self.showColumn("canvasColumn", Column);
+					this._self.showColumn(this.canvasId, Column, this._self);
 				}
 			},
-			showColumn(canvasId, chartData) {
-				canvaColumn = new uCharts({
+			showColumn(canvasId, chartData, _self) {
+				this.canvaColumn = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
 					type: 'column',
@@ -89,7 +91,7 @@
 
 			},
 			touchColumn(e) {
-				canvaColumn.showToolTip(e, {
+				this.canvaColumn.showToolTip(e, {
 					format: function(item, category) {
 						if (typeof item.data === 'object') {
 							return category + ' ' + item.name + ':' + item.data.value
