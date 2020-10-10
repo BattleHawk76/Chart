@@ -1,0 +1,22 @@
+{
+  "name": "uni-ajax",
+  "version": "2.1.2",
+  "description": "封装 uni-app 的 request API",
+  "main": "index.js",
+  "files": [
+    "lib",
+    "index.js"
+  ],
+  "keywords": [
+    "uni-app",
+    "request",
+    "ajax",
+    "http"
+  ],
+  "author": "ponjs",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ponjs/uni-ajax"
+  }
+}

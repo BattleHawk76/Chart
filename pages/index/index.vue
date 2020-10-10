@@ -17,10 +17,13 @@
 						<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
 					</div>
 					<div>
-						状态更新时间:
+						运行时间:
 						<u-tag :text="item.statusUpdateTime" mode="light" size="mini" />
 					</div>
-
+					<div>
+						故障次数:
+						<u-tag :text="item.DefectCount" mode="light" size="mini" />
+					</div>
 				</div>
 
 			</uni-card>
@@ -49,46 +52,7 @@
 		},
 		data() {
 			return {
-				MachineItemList: [{ //后端传来的数据.此时为模拟数据
-						name: '1',
-						availability: 30,
-						productionMeters: 300,
-						status: 'fine',
-						statusUpdateTime: '11:15:32'
-					},{
-						name: '2',
-						availability: 30,
-						productionMeters: 500,
-						status: 'fine',
-						statusUpdateTime: '11:15:32'
-					},{
-						name: '3',
-						availability: 60,
-						productionMeters: 600,
-						status: 'fine',
-						statusUpdateTime: '11:15:32'
-					},{
-						name: '4',
-						availability: 40,
-						productionMeters: 700,
-						status: 'fine',
-						statusUpdateTime: '11:15:32'
-					},
-					{
-						name: '5',
-						availability: 80,
-						productionMeters: 800,
-						status: 'fine',
-						statusUpdateTime: '11:15:32'
-					},
-					{
-						name: '6',
-						availability: 0,
-						productionMeters: 900,
-						status: 'fine',
-						statusUpdateTime: '11:15:32'
-					}
-				],
+				MachineItemList: [],
 				DialogFlag: false,
 				details: {},
 				hackReset:true
@@ -132,7 +96,18 @@
 				});
 			}
 		},
-
+		created() {
+			this.$ajax('/Machine/gettodaybynumbers',{numbers:'1,2,3,4,5,6,lqq,sw'}).then(res => {
+				console.log(res.data)
+				let list
+				list=res.data
+				//下面的代码是数组重命名
+				list=JSON.parse(JSON.stringify(list).replace(/number/g, 'name')) 
+				list=JSON.parse(JSON.stringify(list).replace(/ProductionMeter/g, 'productionMeters')) 
+				list=JSON.parse(JSON.stringify(list).replace(/runningTime/g, 'statusUpdateTime')) 
+				this.MachineItemList=list
+			})
+		}
 	}
 </script>
 
