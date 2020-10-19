@@ -1,10 +1,11 @@
 <template>
 	<view class="qiun-columns">
-		{{title}}
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+			<view class="qiun-title-dot-light">{{title}}</view>
+		</view>
 		<view class="qiun-charts qiun-rows">
 			<canvas :canvas-id="canvasId" :id="canvasId" class="charts-pie" @touchstart="touchPie"></canvas>
 		</view>
-
 	</view>
 </template>
 
@@ -21,24 +22,23 @@
 				serverData: '',
 				piearr: [],
 				_self: null,
-				canvaPie: null
+				canvaPie: null,
 			}
 		},
 		props: {
-			title: '',
+			title:'',
 			canvasId: '',
 			chartName: null,
 		},
 		methods: {
-			chartStart(name) {
+			chartStart(item) {
 				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
-				this.chartName = name
-				this.getServerData();
 				
+				this.getServerData(item[item.length-1]);//传入当前机器每天里最后一天的数据
 			},
-			getServerData() {
+			getServerData(item) {
 				if (this.chartName === null) {
 					var Pie = {
 						"series": [{
@@ -59,22 +59,31 @@
 						}]
 					};
 				} else {
-					var Pie = { //需要后端做一个端口,做一个根据机器码来获取单个机器数据
+					var Pie = { //需要后端做一个端口,做一个根据机器码来获取单个机器数据(当前还未作数据先显示不重要数据)
 						"series": [{
-							"name": "上料",
-							"data": 50
+							"name": "线程",
+							"data": item.status.THREADING
 						}, {
-							"name": "落布",
-							"data": 30
+							"name": "修复",
+							"data": item.status.REPAIR
 						}, {
-							"name": "修理中",
-							"data": 20
+							"name": "垂布",
+							"data": item.status.DROP_CLOTH
 						}, {
-							"name": "打印条码",
-							"data": 18
+							"name": "正常生产",
+							"data": item.status.NORMAL_PRODUCTION
 						}, {
-							"name": "检修",
-							"data": 8
+							"name": "送料",
+							"data": item.status.FEEDING
+						}, {
+							"name": "关闭",
+							"data": item.status.SHUTDOWN
+						}, {
+							"name": "异常关机",
+							"data": item.status.ABNORMAL_SHUTDOWN
+						}, {
+							"name": "支架",
+							"data": item.status.STAND
 						}]
 					}
 				}

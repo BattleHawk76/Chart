@@ -29,15 +29,22 @@
 			chartName: null
 		},
 		methods: {
-			chartStart(name) {
+			chartStart(item) {
 				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
 				this.pixelRatio = 1
-				this.chartName = name
-				this.getServerData();
+				let productionMeter = []
+				let date = []
+				item.forEach(i => {
+					productionMeter.push(i.productionMeter)
+					date.push(i.date.replace("2020-", ''))
+				})
+				console.log(productionMeter)
+				console.log(date)
+				this.getServerData(productionMeter, date);
 			},
-			getServerData() {
+			getServerData(productionMeter, date) {
 				if (this.chartName === null) {
 					let Column = {
 						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
@@ -49,10 +56,10 @@
 					this._self.showColumn(this.canvasId, Column, this._self);
 				} else {
 					let Column = {
-						"categories": ["9月16日", "9月17日", "9月18日", "9月19日", "9月20日", "9月21日"],
+						"categories": date,
 						"series": [{
 							"name": "生产米数",
-							"data": [15, 55, 37, 43, 34,76]
+							"data": productionMeter,
 						}]
 					}
 					this._self.showColumn(this.canvasId, Column, this._self);
@@ -66,7 +73,7 @@
 					legend: {
 						show: true
 					},
-					fontSize: 11,
+					fontSize: 8,
 					background: '#FFFFFF',
 					pixelRatio: _self.pixelRatio,
 					animation: true,
@@ -106,62 +113,15 @@
 </script>
 
 <style>
-	page {
-		background: #F2F2F2;
-		width: 750upx;
-		overflow-x: hidden;
-	}
-
-	.qiun-padding {
-		padding: 2%;
-		width: 96%;
-	}
-
-	.qiun-wrap {
-		display: flex;
-		flex-wrap: wrap;
-	}
-
-	.qiun-rows {
-		display: flex;
-		flex-direction: row !important;
-	}
-
-	.qiun-columns {
-		display: flex;
-		flex-direction: column !important;
-	}
-
-	.qiun-common-mt {
-		margin-top: 10upx;
-	}
-
-	.qiun-bg-white {
-		background: #FFFFFF;
-	}
-
-	.qiun-title-bar {
-		width: 96%;
-		padding: 10upx 2%;
-		flex-wrap: nowrap;
-	}
-
-	.qiun-title-dot-light {
-		border-left: 10upx solid #0ea391;
-		padding-left: 10upx;
-		font-size: 32upx;
-		color: #000000
-	}
-
-	.qiun-charts {
-		width: 750upx;
-		height: 500upx;
-		background-color: #FFFFFF;
-	}
-
-	.charts {
-		width: 750upx;
-		height: 500upx;
-		background-color: #FFFFFF;
-	}
+page{background:#F2F2F2;width: 750upx;overflow-x: hidden;}
+.qiun-padding{padding:2%; width:96%;}
+.qiun-wrap{display:flex; flex-wrap:wrap;}
+.qiun-rows{display:flex; flex-direction:row !important;}
+.qiun-columns{display:flex; flex-direction:column !important;}
+.qiun-common-mt{margin-top:10upx;}
+.qiun-bg-white{background:#FFFFFF;}
+.qiun-title-bar{width:96%; padding:10upx 2%; flex-wrap:nowrap;}
+.qiun-title-dot-light{border-left: 10upx solid #0ea391; padding-left: 10upx; font-size: 32upx;color: #000000}
+.qiun-charts{width: 750upx; height:500upx;background-color: #FFFFFF;}
+.charts{width: 750upx; height:500upx;background-color: #FFFFFF;}
 </style>

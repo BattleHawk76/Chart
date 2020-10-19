@@ -28,7 +28,9 @@
         }
         ,{
             "path" : "pages/chartMessage/chartMessage",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "机器详情"
+			}
         }
     ],
 	"globalStyle": {

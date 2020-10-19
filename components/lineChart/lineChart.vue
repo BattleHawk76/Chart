@@ -28,14 +28,23 @@
 			}
 		},
 		methods: {
-			chartStart(name) {
+			chartStart(item) {
 				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
-				this.chartName= name
-				this.getServerData();
+				let availability = []
+				let date = []
+				console.log('lqq')
+				console.log(item)
+				item.forEach(i => {
+					availability.push(i.availability)
+					date.push(i.date.replace("2020-", ''))
+				})
+				console.log(availability)
+				console.log(date)
+				this.getServerData(availability, date);
 			},
-			getServerData() {
+			getServerData(availability, date) {
 				if (this.chartName === null) {
 					let LineA = {
 						categories: ['9月17日', '9月18日', '9月19日', '9月21日', '9月20日', '9月21日'],
@@ -54,16 +63,15 @@
 					this._self.showLineA(this.canvasId, LineA, this._self);
 				} else {
 					let LineA = {
-						categories: ['9月17日', '9月18日', '9月19日', '9月21日', '9月20日', '9月21日'],
+						categories: date,
 						series: [{
 							name: '机器1',
-							data: [35, 20, 25, 37, 4, 20],
+							data: availability,
 							color: '#000000'
 						}]
 					};
 					this._self.showLineA(this.canvasId, LineA, this._self);
 				}
-
 			},
 			showLineA(canvasId, chartData, _self) {
 				this.canvaLineA = new uCharts({
@@ -132,4 +140,14 @@
 		height: 500upx;
 		background-color: #FFFFFF;
 	}
+	page{background:#F2F2F2;width: 750upx;overflow-x: hidden;}
+	.qiun-padding{padding:2%; width:96%;}
+	.qiun-wrap{display:flex; flex-wrap:wrap;}
+	.qiun-rows{display:flex; flex-direction:row !important;}
+	.qiun-columns{display:flex; flex-direction:column !important;}
+	.qiun-common-mt{margin-top:10upx;}
+	.qiun-bg-white{background:#FFFFFF;}
+	.qiun-title-bar{width:96%; padding:10upx 2%; flex-wrap:nowrap;}
+	.qiun-title-dot-light{border-left: 10upx solid #0ea391; padding-left: 10upx; font-size: 32upx;color: #000000}
+	.charts{width: 750upx; height:500upx;background-color: #FFFFFF;}
 </style>

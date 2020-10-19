@@ -1,42 +1,35 @@
 <template>
 	<view class="container">
 		<div class="Machine">
-			<uni-card title="机器" :extra="item.name" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item)"
-			 style="width: 45%;">
-				<div style="font-size: 9px;">
+			<uni-card title="机器" :extra="index" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item,index)"
+			 style="width: 45%;" v-if="item[item.length-1]">
+				<div style="font-size: 9px;" >
 					<div>
 						今日开机率:
-						<u-tag :text="item.availability+'%'" mode="light" :type="availabilityType(item.availability)" size="mini" />
+						<u-tag :text="(item[item.length-1].availability*100).toFixed(2)+'%'" mode="light" :type="availabilityType(item[item.length-1].availability*100)" size="mini" />
 					</div>
 					<div>
 						今日生产米数:
-						<u-tag :text="item.productionMeters+'M'" mode="light" :type="productionMetersType(item.productionMeters)" size="mini" />
+						<u-tag :text="item[item.length-1].productionMeter+'M'" mode="light" :type="productionMetersType(item[item.length-1].productionMeter)"
+						 size="mini" />
 					</div>
 					<div>
 						当前状态:
-						<u-tag :text="item.status" mode="light" :type="statusType(item.status)" size="mini" />
+						<u-tag :text="item[item.length-1].defectCount!=0?'损坏':'正常'" mode="light" :type="statusType(item[item.length-1].defectCount)" size="mini" />
 					</div>
 					<div>
-						运行时间:
-						<u-tag :text="item.statusUpdateTime" mode="light" size="mini" />
+						最后运行时间:
+						<u-tag :text="item[item.length-1].lastChangeStatus" mode="light" size="mini" />
 					</div>
+					
 					<div>
 						故障次数:
-						<u-tag :text="item.DefectCount" mode="light" size="mini" />
+						<u-tag :text="item[item.length-1].defectCount" mode="light" size="mini" />
 					</div>
 				</div>
 
 			</uni-card>
 		</div>
-		<u-popup v-model="DialogFlag" mode="center" border-radius="14" width="95%" class="Machine" closeable='true' @close="close">
-			<view ref='Chart' v-if="hackReset">
-				<scroll-view scroll-y="true" style="height: 95vh;">
-					<mypie ref="mypie" :chartName="details.name" :title="'机器'+details.name+'运行状态'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></mypie>
-					<myline ref="myline" :chartName="details.name" :title="'机器'+details.name+'开机率'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></myline>
-					<myzhu ref="myzhu" :chartName="details.name" :title="'机器'+details.name+'生产米数'" :canvasId="details.name+'canvasId'" v-show="DialogFlag"></myzhu>
-				</scroll-view>
-			</view>
-		</u-popup>
 	</view>
 </template>
 
@@ -55,18 +48,10 @@
 				MachineItemList: [],
 				DialogFlag: false,
 				details: {},
-				hackReset:true
+				hackReset: true
 			}
 		},
 		methods: {
-			showDialog(item) {
-				this.details = item
-				this.DialogFlag = true
-				this.$refs.mypie.chartStart(this.details.name);
-				this.$refs.myline.chartStart(this.details.name);
-				this.$refs.myzhu.chartStart(this.details.name);
-
-			},
 			availabilityType(value) {
 				if (value === 0) return 'info'
 				if (value <= 30) return 'error'
@@ -80,7 +65,7 @@
 				if (value > 600) return 'primary'
 			},
 			statusType(value) {
-				if (value != 'fine') return 'error'
+				if (value != 0) return 'error'
 				else return 'success'
 			},
 			close(value) {
@@ -89,23 +74,34 @@
 					this.hackReset = true; //重建组件
 				});
 			},
-			showChart(item) {
-				console.log(item)
+			showChart(item,index) {
 				uni.navigateTo({
-					url: `/pages/chartMessage/chartMessage?message=${JSON.stringify(item)}`,
+					url: `/pages/chartMessage/chartMessage?message=${JSON.stringify(item)}&index=${JSON.stringify(index)}`,
 				});
 			}
 		},
 		created() {
-			this.$ajax('/Machine/gettodaybynumbers',{numbers:'1,2,3,4,5,6,lqq,sw'}).then(res => {
+			let id = ''
+			let that = this
+			this.$ajax({ //如果请求为空数组可能是后端服务器重启了需要请求初始化请求
+				url: '/machine/allNumber',
+				method: 'GET',
+			}).then(res => {
 				console.log(res.data)
-				let list
-				list=res.data
-				//下面的代码是数组重命名
-				list=JSON.parse(JSON.stringify(list).replace(/number/g, 'name')) 
-				list=JSON.parse(JSON.stringify(list).replace(/ProductionMeter/g, 'productionMeters')) 
-				list=JSON.parse(JSON.stringify(list).replace(/runningTime/g, 'statusUpdateTime')) 
-				this.MachineItemList=list
+				res.data.forEach(item => {
+					id += item + ','
+				})
+				console.log(id)
+				that.$ajax({ //如果请求为空数组可能是后端服务器重启了需要请求初始化请求
+					url: '/DailyData/findAllDailByMachineNums',
+					method: 'GET',
+					data: {
+						machineNums: id
+					}
+				}).then(res => {
+					console.log(res.data)
+					that.MachineItemList = res.data
+				})
 			})
 		}
 	}
