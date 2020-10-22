@@ -3,67 +3,106 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarTitleText": "维库Mes系统需求"
-		}
-	},
-	{
-            "path" : "pages/pie/pie",
-            "style" : {
-				"navigationBarTitleText": "饼图"
+			"path": "pages/Login/login",
+			"style": {
+				// 这是本页面的样式,这个样式权重大于全局
+				"navigationBarTitleText": "登录"
 			}
-        }
-        ,{
-            "path" : "pages/zhu/zhu",
-            "style" : {
-				"navigationBarTitleText": "柱状图"
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				// 这是本页面的样式,这个样式权重大于全局
+				"navigationBarTitleText": "维库Mes系统需求"
 			}
-        }
-        ,{
-            "path" : "pages/line/line",
-            "style" : {
-				"navigationBarTitleText": "全部机器开机率"
-			}
-        }
-        ,{
-            "path" : "pages/chartMessage/chartMessage",
-            "style" : {
+		},
+		// {
+		// 	"path": "pages/pie/pie",
+		// 	"style": {
+		// 		"navigationBarTitleText": "饼图"
+		// 	}
+		// }, {
+		// 	"path": "pages/zhu/zhu",
+		// 	"style": {
+		// 		"navigationBarTitleText": "柱状图"
+		// 	}
+		// }, {
+		// 	"path": "pages/line/line",
+		// 	"style": {
+		// 		"navigationBarTitleText": "全部机器开机率"
+		// 	}
+		// },
+		{
+			"path": "pages/chartMessage/chartMessage",
+			"style": {
 				"navigationBarTitleText": "机器详情"
 			}
+		}
+
+	    ,{
+            "path" : "pages/ProcessListInformation/ProcessListInformation",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "工艺单信息",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"globalStyle": {
+		// 导航栏文字颜色
 		"navigationBarTextStyle": "white",
+		// 导航栏标题
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#007AFF",
-		"backgroundColor": "#FFFFFF"
+		// 导航栏背景色
+		"navigationBarBackgroundColor": "#075eb6",
+		// 开启下拉刷新
+		"enablePullDownRefresh": true,
+		// 这个是开启下拉后刷新的那个背景色
+		"backgroundColor": "#F8F8F8",
+		// 设置loading 样式
+		"backgroundTextStyle": "light"
+
 	},
+	// 页面下面的页面切换
 	"tabBar": {
-	    "color": "#7A7E83",
-	    "selectedColor": "#3cc51f",
-	    "borderStyle": "black",
-	    "backgroundColor": "#ffffff",
-	    "list": [{
-	        "pagePath": "pages/index/index",
-			"iconPath": "static/image/Block.png",
-			"selectedIconPath": "static/image/Block-active.png",
-	        "text": "首页"
-	    },{
-	        "pagePath": "pages/pie/pie",
-			"iconPath": "static/image/Dic.png",
-			"selectedIconPath": "static/image/Dic-active.png",
-	        "text": "饼图"
-	    },{
-	        "pagePath": "pages/zhu/zhu",
-			"iconPath": "static/image/Dic.png",
-			"selectedIconPath": "static/image/Dic-active.png",
-	        "text": "柱状图"
-	    },{
-	        "pagePath": "pages/line/line",
-			"iconPath": "static/image/Dic.png",
-			"selectedIconPath": "static/image/Dic-active.png",
-	        "text": "机器开机率"
-	    }]
+		// 未选中的颜色
+		"color": "#a0522d",
+		// 选中后的文字颜色烦烦烦
+		"selectedColor": "#b3ee3a",
+		// 背景颜色
+		"backgroundColor": "#fff",
+		// 切换按钮最少两个最多五个
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/image/Block.png",
+				"selectedIconPath": "static/image/Block-active.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/Login/login",
+				"iconPath": "static/image/Block.png",
+				"selectedIconPath": "static/image/Block-active.png",
+				"text": "登录"
+			}
+			// {
+			// 	"pagePath": "pages/pie/pie",
+			// 	"iconPath": "static/image/Dic.png",
+			// 	"selectedIconPath": "static/image/Dic-active.png",
+			// 	"text": "饼图"
+			// }, {
+			// 	"pagePath": "pages/zhu/zhu",
+			// 	"iconPath": "static/image/Dic.png",
+			// 	"selectedIconPath": "static/image/Dic-active.png",
+			// 	"text": "柱状图"
+			// }, {
+			// 	"pagePath": "pages/line/line",
+			// 	"iconPath": "static/image/Dic.png",
+			// 	"selectedIconPath": "static/image/Dic-active.png",
+			// 	"text": "机器开机率"
+			// },
+		]
+
 	}
 }

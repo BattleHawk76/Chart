@@ -35,7 +35,6 @@
 				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
-				
 				this.getServerData(item[item.length-1]);//传入当前机器每天里最后一天的数据
 			},
 			getServerData(item) {
@@ -142,7 +141,7 @@
 
 	.qiun-padding {
 		padding: 2%;
-		width: 96%;
+		width: 100%;
 	}
 
 	.qiun-wrap {
@@ -169,7 +168,7 @@
 	}
 
 	.qiun-title-bar {
-		width: 96%;
+		width: 100%;
 		padding: 10upx 2%;
 		flex-wrap: nowrap;
 	}

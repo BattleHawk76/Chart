@@ -1,12 +1,13 @@
 <template>
 	<view class="container">
 		<div class="Machine">
-			<uni-card title="机器" :extra="index" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item,index)"
-			 style="width: 45%;" v-if="item[item.length-1]">
-				<div style="font-size: 9px;" >
+			<uni-card :title="'机器'+index" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item,index)"
+			 style="width: 45%;" v-if="item[item.length-1]" note>
+				<div style="font-size: 9px;">
 					<div>
 						今日开机率:
-						<u-tag :text="(item[item.length-1].availability*100).toFixed(2)+'%'" mode="light" :type="availabilityType(item[item.length-1].availability*100)" size="mini" />
+						<u-tag :text="(item[item.length-1].availability).toFixed(2)+'%'" mode="light" :type="availabilityType(item[item.length-1].availability)"
+						 size="mini" />
 					</div>
 					<div>
 						今日生产米数:
@@ -15,19 +16,21 @@
 					</div>
 					<div>
 						当前状态:
-						<u-tag :text="item[item.length-1].defectCount!=0?'损坏':'正常'" mode="light" :type="statusType(item[item.length-1].defectCount)" size="mini" />
+						<u-tag :text="item[item.length-1].defectCount!=0?'损坏':'正常'" mode="light" :type="statusType(item[item.length-1].defectCount)"
+						 size="mini" />
 					</div>
 					<div>
 						最后运行时间:
-						<u-tag :text="item[item.length-1].lastChangeStatus" mode="light" size="mini" />
-					</div>
-					
-					<div>
-						故障次数:
-						<u-tag :text="item[item.length-1].defectCount" mode="light" size="mini" />
+						<u-tag :text="item[item.length-1].lastChangeStatus.trim().split(/\s+/)[1]" mode="light" size="mini" />
 					</div>
 				</div>
-
+				<template v-slot:footer>
+					<div class="footer-box">
+						<navigator :url="'/pages/ProcessListInformation/ProcessListInformation?id='+JSON.stringify(index)" hover-class="navigator-hover" >
+							工单信息
+						</navigator>
+					</div>
+				</template>
 			</uni-card>
 		</div>
 	</view>
@@ -74,7 +77,7 @@
 					this.hackReset = true; //重建组件
 				});
 			},
-			showChart(item,index) {
+			showChart(item, index) {
 				uni.navigateTo({
 					url: `/pages/chartMessage/chartMessage?message=${JSON.stringify(item)}&index=${JSON.stringify(index)}`,
 				});
@@ -87,16 +90,14 @@
 				url: '/machine/allNumber',
 				method: 'GET',
 			}).then(res => {
-				console.log(res.data)
 				res.data.forEach(item => {
 					id += item + ','
 				})
-				console.log(id)
 				that.$ajax({ //如果请求为空数组可能是后端服务器重启了需要请求初始化请求
 					url: '/DailyData/findAllDailByMachineNums',
 					method: 'GET',
 					data: {
-						machineNums: id
+						'machineNums': id
 					}
 				}).then(res => {
 					console.log(res.data)
@@ -120,5 +121,10 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+	}
+
+	.footer-box {
+		display: flex;
+		justify-content: center;
 	}
 </style>
