@@ -95,6 +95,7 @@
 		onLoad(option) {
 			this.details = JSON.parse(option.message)
 			this.id = JSON.parse(option.index)
+			console.log(this.details)
 		},
 		onReady() {
 			this.$refs.mypie.chartStart(this.details);

@@ -1,9 +1,11 @@
 <template>
 	<view class="container">
+		<u-picker v-model="factoryShow" mode="selector" :range="factorySelector" range-key="cateName" @confirm="factoryConfirm"></u-picker>
+		<u-button @click="factoryShow = true">选择厂</u-button>
 		<div class="Machine">
-			<uni-card :title="'机器'+index" v-for="(item,index) in MachineItemList" :key="index" @click="showChart(item,index)"
-			 style="width: 45%;" v-if="item[item.length-1]" note>
-				<div style="font-size: 9px;">
+			<u-card :title="'机器'+index" v-for="(item,index) in MachineItemList" :key="index" @body-click="showChart(item,index)"
+			 @head-click="showChart(item,index)" @foot-click="showOrder(index)" style="width: 45%;" v-if="item[item.length-1]">
+				<div style="font-size: 9px;" slot="body">
 					<div>
 						今日开机率:
 						<u-tag :text="(item[item.length-1].availability).toFixed(2)+'%'" mode="light" :type="availabilityType(item[item.length-1].availability)"
@@ -24,14 +26,11 @@
 						<u-tag :text="item[item.length-1].lastChangeStatus.trim().split(/\s+/)[1]" mode="light" size="mini" />
 					</div>
 				</div>
-				<template v-slot:footer>
-					<div class="footer-box">
-						<navigator :url="'/pages/ProcessListInformation/ProcessListInformation?id='+JSON.stringify(index)" hover-class="navigator-hover" >
-							工单信息
-						</navigator>
-					</div>
-				</template>
-			</uni-card>
+				<div slot="foot">
+						工单信息
+				</div>
+
+			</u-card>
 		</div>
 	</view>
 </template>
@@ -51,7 +50,15 @@
 				MachineItemList: [],
 				DialogFlag: false,
 				details: {},
-				hackReset: true
+				hackReset: true,
+				factorySelector: [{
+					cateName: 'A厂',
+					id: 1
+				}, {
+					cateName: 'B厂',
+					id: 2
+				}, ],
+				factoryShow: false
 			}
 		},
 		methods: {
@@ -81,6 +88,14 @@
 				uni.navigateTo({
 					url: `/pages/chartMessage/chartMessage?message=${JSON.stringify(item)}&index=${JSON.stringify(index)}`,
 				});
+			},
+			showOrder(index) {
+				uni.navigateTo({
+					url: `/pages/ProcessListInformation/ProcessListInformation?id=${JSON.stringify(index)}`,
+				});
+			},
+			factoryConfirm(e) {
+				console.log(e)
 			}
 		},
 		created() {

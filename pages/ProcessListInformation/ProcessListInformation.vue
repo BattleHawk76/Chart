@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<u-collapse ref="collapse">
+		<u-collapse ref="collapse" v-if="WorkOrderList.length != 0">
 			<u-collapse-item title="工艺单信息" :open='true'>
 				<div style="padding: 30rpx;">
 					工艺单编号:{{processSheet.number}}
@@ -68,6 +68,7 @@
 				</div>
 			</u-collapse-item>
 		</u-collapse>
+		<u-toast ref="uToast" />
 	</div>
 </template>
 
@@ -92,7 +93,18 @@
 				processSheet: [], //工艺单
 				productOrder: [], //生产单
 				machine: [], //机器数据
-				contact:[],//客户
+				contact: [], //客户
+				toastFlag: false,
+			}
+		},
+		watch: {
+			toastFlag(newVal, oldVal) {//监听flag如果flag值变了立马执行弹窗提醒然后跳转上一页
+				this.$refs.uToast.show({
+					position: 'top',
+					title: '当前没有工单',
+					type: 'error',
+					back: true
+				})
 			}
 		},
 		methods: {
@@ -113,11 +125,11 @@
 					this.WorkerDivHeight = 1
 				}
 				this.$nextTick(this.$refs.collapse.init())
-			}
+			},
 		},
 		onLoad(option) {
 			console.log(JSON.parse(option.id))
-			this.machineId=JSON.parse(option.id)
+			this.machineId = JSON.parse(option.id)
 			this.$ajax({ //如果请求为空数组可能是后端服务器重启了需要请求初始化请求
 				url: '/workOrder/findByMachineNumber',
 				method: 'GET',
@@ -126,11 +138,15 @@
 				}
 			}).then(res => {
 				this.WorkOrderList = res.data //工单数组
-				console.log(this.WorkOrderList)
+				if (this.WorkOrderList.length == 0) {//看工单数组是否为空,如果为空控制flag让他变为true
+					this.toastFlag = true
+				}
 				this.productOrder = this.WorkOrderList.productOrder //生产单
 				this.processSheet = this.productOrder.processSheet //工艺单
 				this.machine = this.WorkOrderList.machine
-				this.contact=this.productOrder.customer.contact.trim().split(/\s+/)
+				this.contact = this.productOrder.customer.contact.trim().split(/\s+/)
+				
+				
 			})
 		}
 	}

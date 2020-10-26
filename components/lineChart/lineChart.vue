@@ -38,8 +38,6 @@
 					availability.push(i.availability)
 					date.push(i.date.replace("2020-", ''))
 				})
-				console.log(availability)
-				console.log(date)
 				this.getServerData(availability, date);
 			},
 			getServerData(availability, date) {
