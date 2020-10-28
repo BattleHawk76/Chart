@@ -35,7 +35,9 @@
 				this._self = this;
 				this.cWidth = uni.upx2px(750);
 				this.cHeight = uni.upx2px(500);
-				this.getServerData(item[item.length - 1]); //传入当前机器每天里最后一天的数据
+				let status=item[item.length - 1].status
+				this.getServerData(status); //传入当前机器每天里最后一天的数据
+				console.log(status)
 			},
 			getServerData(item) {
 				if (this.chartName === null) {
@@ -58,31 +60,29 @@
 						}]
 					};
 				} else {
+					
 					var Pie = { //需要后端做一个端口,做一个根据机器码来获取单个机器数据(当前还未作数据先显示不重要数据)
 						"series": [{
-							"name": "线程",
-							"data": item.status.THREADING
-						}, {
-							"name": "修复",
-							"data": item.status.REPAIR
-						}, {
-							"name": "垂布",
-							"data": item.status.DROP_CLOTH
-						}, {
-							"name": "正常生产",
-							"data": item.status.NORMAL_PRODUCTION
+							"name": "异常",
+							"data": item.ABNORMAL/3600
 						}, {
 							"name": "送料",
-							"data": item.status.FEEDING
+							"data": item.FEEDING/3600
+						}, {
+							"name": "正常产量",
+							"data": item.NORMAL_PRODUCTION/3600
+						}, {
+							"name": "修复",
+							"data": item.REPAIR/3600
 						}, {
 							"name": "关闭",
-							"data": item.status.SHUTDOWN
-						}, {
-							"name": "异常关机",
-							"data": item.status.ABNORMAL_SHUTDOWN
+							"data": item.SHUTDOWN/3600
 						}, {
 							"name": "支架",
-							"data": item.status.STAND
+							"data": item.STAND/3600
+						}, {
+							"name": "线程",
+							"data": item.THREADING/3600
 						}]
 					}
 				}
@@ -117,6 +117,7 @@
 							labelWidth: 15
 						}
 					},
+					colors:['#1890ff', '#2fc25b', '#facc14', '#f04864', '#8543e0', '#90ed7d','#5bdaed']
 				});
 				this.piearr = this.canvaPie.opts.series;
 			},

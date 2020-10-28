@@ -1,33 +1,46 @@
 <template>
 	<view class="container">
 		<u-picker v-model="factoryShow" mode="selector" :range="factorySelector" range-key="cateName" @confirm="factoryConfirm"></u-picker>
-		<u-button @click="factoryShow = true">选择厂</u-button>
+		<u-button @click="factoryShow = true">{{Factory}}</u-button>
 		<div class="Machine">
 			<u-card :title="'机器'+index" v-for="(item,index) in MachineItemList" :key="index" @body-click="showChart(item,index)"
-			 @head-click="showChart(item,index)" @foot-click="showOrder(index)" style="width: 45%;" v-if="item[item.length-1]">
-				<div style="font-size: 9px;" slot="body">
-					<div>
-						今日开机率:
-						<u-tag :text="(item[item.length-1].availability).toFixed(2)+'%'" mode="light" :type="availabilityType(item[item.length-1].availability)"
-						 size="mini" />
+			 @head-click="showChart(item,index)" @foot-click="showOrder(index)" v-if="item[item.length-1]">
+				<div style="font-size: 9px;display: flex;" slot="body">
+					<div >
+						<div>
+							今日开机率:
+						</div>
+						<div>
+							今日生产米数:
+						</div>
+						<div>
+							当前状态:
+						</div>
+						<div>
+							最后运行时间:
+						</div>
 					</div>
-					<div>
-						今日生产米数:
-						<u-tag :text="item[item.length-1].productionMeter+'M'" mode="light" :type="productionMetersType(item[item.length-1].productionMeter)"
-						 size="mini" />
-					</div>
-					<div>
-						当前状态:
-						<u-tag :text="item[item.length-1].defectCount!=0?'损坏':'正常'" mode="light" :type="statusType(item[item.length-1].defectCount)"
-						 size="mini" />
-					</div>
-					<div>
-						最后运行时间:
-						<u-tag :text="item[item.length-1].lastChangeStatus.trim().split(/\s+/)[1]" mode="light" size="mini" />
+					<div style="width: 30rpx;"></div>
+					<div style="float: right;">
+						<div>
+							<u-tag :text="(item[item.length-1].availability).toFixed(2)+'%'" mode="light" :type="availabilityType(item[item.length-1].availability)"
+							 size="mini" />
+						</div>
+						<div>
+							<u-tag :text="item[item.length-1].productionMeter+'M'" mode="light" :type="productionMetersType(item[item.length-1].productionMeter)"
+							 size="mini" />
+						</div>
+						<div>
+							<u-tag :text="item[item.length-1].defectCount!=0?'损坏':'正常'" mode="light" :type="statusType(item[item.length-1].defectCount)"
+							 size="mini" />
+						</div>
+						<div>
+							<u-tag :text="item[item.length-1].lastChangeStatus.trim().split(/\s+/)[1]" mode="light" size="mini" />
+						</div>
 					</div>
 				</div>
-				<div slot="foot">
-						工单信息
+				<div slot="foot" style="display: flex;justify-content: center;">
+					工单信息
 				</div>
 
 			</u-card>
@@ -58,7 +71,8 @@
 					cateName: 'B厂',
 					id: 2
 				}, ],
-				factoryShow: false
+				factoryShow: false,
+				Factory:'A厂'
 			}
 		},
 		methods: {
@@ -95,7 +109,7 @@
 				});
 			},
 			factoryConfirm(e) {
-				console.log(e)
+				this.Factory=this.factorySelector[e].cateName
 			}
 		},
 		created() {
