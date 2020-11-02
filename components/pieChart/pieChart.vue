@@ -63,25 +63,25 @@
 					
 					var Pie = { //需要后端做一个端口,做一个根据机器码来获取单个机器数据(当前还未作数据先显示不重要数据)
 						"series": [{
-							"name": "异常",
+							"name": "异常停机",
 							"data": item.ABNORMAL/3600
 						}, {
-							"name": "送料",
+							"name": "上料",
 							"data": item.FEEDING/3600
 						}, {
-							"name": "正常产量",
+							"name": "正常生产",
 							"data": item.NORMAL_PRODUCTION/3600
 						}, {
-							"name": "修复",
+							"name": "维修",
 							"data": item.REPAIR/3600
 						}, {
-							"name": "关闭",
+							"name": "停机",
 							"data": item.SHUTDOWN/3600
 						}, {
-							"name": "支架",
+							"name": "待机",
 							"data": item.STAND/3600
 						}, {
-							"name": "线程",
+							"name": "穿纱",
 							"data": item.THREADING/3600
 						}]
 					}

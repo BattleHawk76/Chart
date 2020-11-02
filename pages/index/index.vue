@@ -4,7 +4,7 @@
 		<u-button @click="factoryShow = true">{{Factory}}</u-button>
 		<div class="Machine">
 			<u-card :title="'机器'+index" v-for="(item,index) in MachineItemList" :key="index" @body-click="showChart(item,index)"
-			 @head-click="showChart(item,index)" @foot-click="showOrder(index)" v-if="item[item.length-1]">
+			 @head-click="showChart(item,index)" @foot-click="showOrder(index)" v-if="item[item.length-1]" style="width: 50%;">
 				<div style="font-size: 9px;display: flex;" slot="body">
 					<div >
 						<div>
@@ -35,7 +35,7 @@
 							 size="mini" />
 						</div>
 						<div>
-							<u-tag :text="item[item.length-1].lastChangeStatus.trim().split(/\s+/)[1]" mode="light" size="mini" />
+							<u-tag :text="(item[item.length-1].lastChangeStatus.trim().split(/\s+/)[0] == today)?item[item.length-1].lastChangeStatus.trim().split(/\s+/)[1]:(item[item.length-1].lastChangeStatus.trim().split(/\s+/)[0]).slice(5)" mode="light" size="mini" />
 						</div>
 					</div>
 				</div>
@@ -72,7 +72,8 @@
 					id: 2
 				}, ],
 				factoryShow: false,
-				Factory:'A厂'
+				Factory:'A厂',
+				today:''
 			}
 		},
 		methods: {
@@ -133,6 +134,8 @@
 					that.MachineItemList = res.data
 				})
 			})
+			this.today= new Date().toISOString().slice(0, 10)
+			console.log(this.today)
 		}
 	}
 </script>
@@ -154,6 +157,6 @@
 
 	.footer-box {
 		display: flex;
-		justify-content: center;
+		flex-wrap:wrap;
 	}
 </style>

@@ -5,7 +5,7 @@ import ajax from 'uni-ajax';
 
 // 创建请求实例 可默认配置
 const _ajax = ajax.create({
-	baseURL:'http://10.129.86.111:8080/weavermes',//填写默认地址
+	baseURL:'http://121.37.155.100:8080/weavermes',//填写默认地址
 });
 
 // 请求拦截器

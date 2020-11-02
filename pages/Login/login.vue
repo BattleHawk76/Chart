@@ -20,8 +20,8 @@
 		data() {
 			return {
 				title: '请登录账号',
-				id:'1',
-				password:'2'
+				id:'',
+				password:''
 			}
 		},
 		onLoad() {

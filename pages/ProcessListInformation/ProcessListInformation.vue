@@ -99,6 +99,7 @@
 		},
 		watch: {
 			toastFlag(newVal, oldVal) {//监听flag如果flag值变了立马执行弹窗提醒然后跳转上一页
+			console.log('数据为空')
 				this.$refs.uToast.show({
 					position: 'top',
 					title: '当前没有工单',
@@ -147,6 +148,8 @@
 				this.contact = this.productOrder.customer.contact.trim().split(/\s+/)
 				
 				
+			}).catch(err =>{
+				this.toastFlag = true
 			})
 		}
 	}

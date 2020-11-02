@@ -3,17 +3,17 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [{
-			"path": "pages/Login/login",
-			"style": {
-				// 这是本页面的样式,这个样式权重大于全局
-				"navigationBarTitleText": "登录"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				// 这是本页面的样式,这个样式权重大于全局
 				"navigationBarTitleText": "维库Mes系统需求"
+			}
+		},
+		{
+			"path": "pages/Login/login",
+			"style": {
+				// 这是本页面的样式,这个样式权重大于全局
+				"navigationBarTitleText": "登录"
 			}
 		},
 		// {
@@ -39,16 +39,15 @@
 			}
 		}
 
-	    ,{
-            "path" : "pages/ProcessListInformation/ProcessListInformation",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "工艺单信息",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+		, {
+			"path": "pages/ProcessListInformation/ProcessListInformation",
+			"style": {
+				"navigationBarTitleText": "工艺单信息",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"globalStyle": {
 		// 导航栏文字颜色
 		"navigationBarTextStyle": "white",
